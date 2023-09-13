@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Cylinder" Id="{5bbc8a3c-1399-4800-ae28-4389e1912388}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Cylinder
+VAR_INPUT
+	push_time: TIME := T#3S;
+	pull_time: TIME := T#1S;
+	push_release_time: TIME := T#150MS;
+	pull_release_time: TIME := T#150MS;
+	chattering_push: BOOL := TRUE;
+	chattering_pull: BOOL := TRUE;
+	chattering_time: TIME := T#2S;
+	chattering_hl_time: TIME := T#50MS;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	push_timer: Tc2_Standard.TON;
+	pull_timer: Tc2_Standard.TON;
+	chattering_gen: Tc2_Standard.TP;
+	_chattering_gen: Tc2_Standard.TP;
+	chattering_timer: Tc2_Standard.TON;
+	
+END_VAR
+
+VAR_IN_OUT
+	io: cylinder2IO;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+push_timer(IN:=(io._push_output AND NOT io._pull_output), PT:= push_time);
+pull_timer(IN:=(io._pull_output AND NOT io._push_output), PT:= pull_time);
+
+IF push_timer.Q THEN
+	IF chattering_push THEN
+		chattering_timer(IN:=TRUE, PT:=chattering_time);
+		IF chattering_timer.Q THEN
+			io._push_sensor := TRUE;
+		ELSE
+			chattering_gen(IN:=NOT _chattering_gen.Q, PT:=chattering_hl_time);
+			_chattering_gen(IN:=NOT chattering_gen.Q, PT:=chattering_hl_time);
+			io._push_sensor := chattering_gen.Q;
+		END_IF
+	ELSE
+		io._push_sensor := TRUE;
+	END_IF	 
+END_IF
+
+
+IF pull_timer.Q THEN
+	IF chattering_pull THEN
+		chattering_timer(IN:=TRUE, PT:=chattering_time);
+		IF chattering_timer.Q THEN
+			io._pull_sensor := TRUE;
+		ELSE
+			chattering_gen(IN:=NOT _chattering_gen.Q, PT:=chattering_hl_time);
+			_chattering_gen(IN:=NOT chattering_gen.Q, PT:=chattering_hl_time);
+			io._pull_sensor := chattering_gen.Q;
+		END_IF
+	ELSE
+		io._pull_sensor := TRUE;
+	END_IF	 
+END_IF
+
+IF 	NOT push_timer.Q AND NOT pull_timer.Q THEN
+	chattering_gen(IN:=FALSE);
+	chattering_timer(IN:=FALSE);
+END_IF
+
+
+IF pull_timer.ET > push_release_time THEN
+	io._push_sensor := FALSE;
+END_IF
+
+IF push_timer.ET > pull_release_time THEN
+	io._pull_sensor := FALSE;	
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="Cylinder">
+      <LineId Id="23" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="38" Count="1" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="43" Count="1" />
+      <LineId Id="126" Count="11" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="138" Count="1" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="31" Count="1" />
+      <LineId Id="34" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="33" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
