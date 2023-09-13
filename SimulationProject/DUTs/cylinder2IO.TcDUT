@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="cylinder2IO" Id="{0b296fa0-b52f-47f2-91f8-ae340eb82bfd}">
+    <Declaration><![CDATA[TYPE cylinder2IO :
+STRUCT
+	_pull_sensor	AT%Q*	:BOOL;
+	_push_sensor	AT%Q*	:BOOL;
+	_pull_output 	AT%I*	:BOOL;
+	_push_output 	AT%I*	:BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

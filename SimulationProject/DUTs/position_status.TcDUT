@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="position_status" Id="{05c2a644-4075-42e7-acfa-59f13a64c42c}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE position_status :
+(
+	unknown := 0,
+	inposition,
+	moving
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

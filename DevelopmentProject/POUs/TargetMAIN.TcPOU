@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TargetMAIN" Id="{6b5d3900-5f22-4621-b289-21f16fde25f0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM TargetMAIN
+VAR
+	cylinder_1 :Cylinder;
+	cylinder_1_io :cylinder2IO;
+	moving_overtime:	REAL := 5.0;
+	push_stabilization: REAL := 500;
+	pull_stabilization: REAL := 500;
+	stroke_interval_time: REAL := 3.0;
+	inposition : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+cylinder_1.limit_time := REAL_TO_TIME(moving_overtime * 1000);
+cylinder_1.push_edge_time := REAL_TO_TIME(push_stabilization);
+cylinder_1.pull_edge_time := REAL_TO_TIME(pull_stabilization);
+cylinder_1.stroke_wait_time := REAL_TO_TIME(stroke_interval_time * 1000);
+
+cylinder_1(io:=cylinder_1_io);
+
+IF cylinder_1.status = position_status.inposition THEN
+	inposition := TRUE;
+ELSE
+	inposition := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="TargetMAIN">
+      <LineId Id="24" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="29" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

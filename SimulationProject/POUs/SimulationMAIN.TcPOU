@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="SimulationMAIN" Id="{6768b7e2-d7cc-451c-be66-683fbc082fff}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SimulationMAIN
+VAR
+	cylinder_stub:	Cylinder;
+	io: cylinder2IO;
+	push_stroke_time: REAL := 1.8;
+	pull_stroke_time: REAL := 1.5;
+	chattering_time: REAL := 0.5;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[cylinder_stub.push_time := REAL_TO_TIME(push_stroke_time * 1000);
+cylinder_stub.pull_time := REAL_TO_TIME(pull_stroke_time * 1000);
+cylinder_stub.chattering_time := REAL_TO_TIME(chattering_time * 1000);
+
+cylinder_stub(io:= io);]]></ST>
+    </Implementation>
+    <LineIds Name="SimulationMAIN">
+      <LineId Id="8" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
