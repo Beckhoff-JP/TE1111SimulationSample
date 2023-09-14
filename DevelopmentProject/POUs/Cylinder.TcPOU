@@ -3,21 +3,20 @@
   <POU Name="Cylinder" Id="{78da19cc-508f-4a31-91e7-b419e493c65e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Cylinder
 VAR_INPUT
-	bExecute: BOOL;
-	command_activate: BOOL;
-	push_edge_time: TIME := T#0.5S;
-	pull_edge_time: TIME := T#0.5S;
-	limit_time	: TIME := T#3S;
-	keep_actuator : BOOL := FALSE;
-	stroke_wait_time: TIME := T#5S;
+	bExecute: BOOL; // Execute cyclically moving
+	push_edge_time: TIME := T#0.5S; // The time confirming stability of sensor input at the pushing side.
+	pull_edge_time: TIME := T#0.5S; // The time confirming stability of sensor input at the pulling side.
+	limit_time	: TIME := T#3S; // The time until time-out error occuring during moving.
+	keep_actuator : BOOL := FALSE; // Continue to excite even after in-position state.
+	stroke_wait_time: TIME := T#5S; // Waiting time before reversing of cyclical piston moving.
 END_VAR
 VAR_OUTPUT
-	status: position_status := position_status.unknown;
-	position: _2_position;
-	current_position: UINT;
-	bError:BOOL;
+	status: position_status := position_status.unknown; // Current status
+	position: _2_position; // Current position
+	bError:BOOL; // Error occured
 END_VAR
 VAR
+	command_activate: BOOL;
 	push_command: BOOL;
 	pull_command: BOOL;
 	edge_timer:Tc2_Standard.TON;

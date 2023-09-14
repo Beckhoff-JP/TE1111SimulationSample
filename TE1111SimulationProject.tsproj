@@ -143,7 +143,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{FE71C9C7-DFA5-4878-AAFA-83C9D06C92A5}" Name="DevelopmentProject" PrjFilePath="DevelopmentProject\DevelopmentProject.plcproj" TmcFilePath="DevelopmentProject\DevelopmentProject.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="DevelopmentProject\DevelopmentProject.tmc" TmcHash="{3C923439-8AAF-7C60-652E-2C1AAD06A1AF}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="DevelopmentProject\DevelopmentProject.tmc" TmcHash="{A349DBED-313F-ABDE-2A88-F7599B676DA2}">
 					<Name>DevelopmentProject Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
